@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
 class UserInformationRequest(BaseModel):
-    user_information: [str]
+    user_information: list[str]
