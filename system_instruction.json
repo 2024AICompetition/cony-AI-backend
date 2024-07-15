@@ -1,0 +1,5 @@
+{
+  "info": "gemini의 system instruction을 위한 파일입니다. data 주입을 원하는 경우 텍스트 내에 {data}와 같이 괄호를 사용하여 작성하고, replace하여 사용합니다.",
+  "create_tags_system_instruction": "Analyze the following text and extract the following information:\n- Emotions\n- People\n- Events\n- Places\nText: {diary_content}\n\nProvide the information in the following format:\n{{\n\"emotion\": [],\n\"person\": [],\n\"event\": [],\n\"place\": []\n}}\n",
+  "create_suggestions_system_instruction": "Analyze the following text and extract only the sentences that set a goal.\nOnly return the goal-setting sentences in quotes, without any additional explanation or text."
+}
