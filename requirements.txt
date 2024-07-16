@@ -53,3 +53,7 @@ uvicorn=0.20.0=py311hca03da5_0
 wheel=0.43.0=py311hca03da5_0
 xz=5.4.6=h80987f9_1
 zlib=1.2.13=h18a0788_1
+
+pydantic~=2.5.3
+fastapi~=0.103.0
+python-dotenv~=1.0.1
