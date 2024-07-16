@@ -9,10 +9,9 @@ class DiaryService:
     _system_instruction = None
 
     def __new__(cls):
-        if hasattr(cls, 'instance'):
-            return cls.instance
-        else:
+        if not hasattr(cls, 'instance'):
             cls.instance = super(DiaryService, cls).__new__(cls)
+        return cls.instance
 
     def __init__(self):
         with open(self._system_instruction_file_path) as json_file:
@@ -25,8 +24,10 @@ class DiaryService:
         :param diary_content: 다이어리 내용
         :return: 다이어리 태그 목록(Emotion, People, Event, Place) (TODO: - 데이터 후처리: 다이어리 태그 목록 객체)
         """
+        print(self.system_instruction)
         system_instruction = self.system_instruction["create_tags_system_instruction"]
         system_instruction = system_instruction.replace("{diary_content}", diary_content)
+        print("create_tags_from_diary_content system instruction", system_instruction)
         return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_suggested_topics_from_diary_content(self, diary_content: str) -> str:
@@ -36,6 +37,7 @@ class DiaryService:
         :return: 장기 목표가 태깅된 다이어리 내용
         """
         system_instruction = self.system_instruction["create_suggestions_system_instruction"]
+        print("create_tags_from_diary_content system instruction", system_instruction)
         return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_topics_from_diary_content(self, diary_content: str, previous_topics: [str]) -> [str]:
@@ -45,7 +47,9 @@ class DiaryService:
         :param previous_topics: 기 추출 된 바 있는 토픽
         :return: 토픽 목록 (TODO: - 데이터 후처리: 배열 값으로 변환)
         """
-        pass
+        system_instruction = self.system_instruction["create_diary_content_topics_system_instruction"]
+        print(str({"content": diary_content, "previous_topics": previous_topics}))
+        return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_embedding_from_diary_content(self, diary_content: str) -> str:
         """

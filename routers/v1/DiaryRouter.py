@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status
 from models.Requests.DiaryContentRequest import DiaryContentRequest
 from models.Requests.UserInformationRequest import UserInformationRequest
+from models.Requests.DiaryContentWithPreviousTopicsRequest import DiaryContentWithPreviousTopicsRequest
 from services.DiaryService import DiaryService
 
 DiaryRouter = APIRouter(
@@ -24,6 +25,7 @@ async def create_tags(diary_content_reqeust: DiaryContentRequest):
     return await diary_service.create_tags_from_diary_content(diary_content_reqeust.content)
 
 
+
 @DiaryRouter.post("/suggested-topics",
                   status_code=status.HTTP_201_CREATED)
 async def create_suggested_topics(diary_content_reqeust: DiaryContentRequest):
@@ -37,10 +39,9 @@ async def create_suggested_topics(diary_content_reqeust: DiaryContentRequest):
     """
     return await diary_service.create_suggested_topics_from_diary_content(diary_content_reqeust.content)
 
-
 @DiaryRouter.post("/diary-content-topics",
                   status_code=status.HTTP_201_CREATED)
-async def create_diary_content_topics(diary_content_reqeust: DiaryContentRequest):
+async def create_diary_content_topics(diary_content_with_previous_topics_reqeust: DiaryContentWithPreviousTopicsRequest):
     """
      실시간 일기 내용의 모든 토픽을 생성
     :request diary_content_reqeust:
@@ -50,8 +51,8 @@ async def create_diary_content_topics(diary_content_reqeust: DiaryContentRequest
         }
     :response:
     """
-    return await diary_service.create_topics_from_diary_content(diary_content_reqeust.content,
-                                                                diary_content_reqeust.previous_topics)
+    return await diary_service.create_topics_from_diary_content(diary_content_with_previous_topics_reqeust.content,
+                                                                diary_content_with_previous_topics_reqeust.previous_topics)
 
 
 @DiaryRouter.post("/embeddings",

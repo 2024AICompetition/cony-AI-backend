@@ -1,7 +1,42 @@
 # Test your FastAPI endpoints
 
-GET http://127.0.0.1:8000/
+GET http://127.0.0.1:2000/
 Accept: application/json
 
 ###
+POST http://127.0.0.1:2000/v1/diaries/tags
+Accept: application/json
+Content-Type: application/json
 
+{
+  "content": "먼저 오늘 오전에 회사 미팅이 있었습니다.\n회의가 끝나고 직장동료들과 점심을 먹으며 바쁜 하루를 보냈습니다.\n하지만 저녁에는 집에가서 내가 좋아하는 피자를 맛있게 먹어서 행복한 하루였습니다.\n하지만, 최근에는 글을 쓰는 것을 게을리하고 있습니다.\n앞으로 매일 조금씩 쓰는 습관을 길러야겠어요.\n마지막으로 감사해야 할 일을 생각해보면 평화로운 하루를 보냈다는 것에 감사합니다.\n"
+}
+
+###
+POST http://127.0.0.1:2000/v1/diaries/suggested-topics
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "먼저 오늘 오전에 회사 미팅이 있었습니다.\n회의가 끝나고 직장동료들과 점심을 먹으며 바쁜 하루를 보냈습니다.\n하지만 저녁에는 집에가서 내가 좋아하는 피자를 맛있게 먹어서 행복한 하루였습니다.\n하지만, 최근에는 글을 쓰는 것을 게을리하고 있습니다.\n앞으로 매일 조금씩 쓰는 습관을 길러야겠어요.\n마지막으로 감사해야 할 일을 생각해보면 평화로운 하루를 보냈다는 것에 감사합니다.\n"
+}
+
+
+###
+POST http://127.0.0.1:2000/v1/diaries/diary-content-topics
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "먼저 오늘 오전에 회사 미팅이 있었습니다.\n회의가 끝나고 직장동료들과 점심을 먹으며 바쁜 하루를 보냈습니다.\n하지만 저녁에는 집에가서 내가 좋아하는 피자를 맛있게 먹어서 행복한 하루였습니다.\n하지만, 최근에는 글을 쓰는 것을 게을리하고 있습니다.\n앞으로 매일 조금씩 쓰는 습관을 길러야겠어요.\n마지막으로 감사해야 할 일을 생각해보면 평화로운 하루를 보냈다는 것에 감사합니다.\n",
+  "previous_topics": ["오늘은 무엇을 먹었나요?", "최근에 놓치고 있는 게 있었나요?"]
+}
+
+###
+POST http://127.0.0.1:2000/v1/diaries/embeddings
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "먼저 오늘 오전에 회사 미팅이 있었습니다.\n회의가 끝나고 직장동료들과 점심을 먹으며 바쁜 하루를 보냈습니다.\n하지만 저녁에는 집에가서 내가 좋아하는 피자를 맛있게 먹어서 행복한 하루였습니다.\n하지만, 최근에는 글을 쓰는 것을 게을리하고 있습니다.\n앞으로 매일 조금씩 쓰는 습관을 길러야겠어요.\n마지막으로 감사해야 할 일을 생각해보면 평화로운 하루를 보냈다는 것에 감사합니다.\n"
+}

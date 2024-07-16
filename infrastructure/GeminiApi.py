@@ -5,12 +5,12 @@ from google import generativeai as genai
 class GeminiApi:
     _gemini_api_key = os.environ["GEMINI_API_KEY"]
     _gemini_model = os.environ["GEMINI_MODEL"]
+    _gemini_embedding_model = os.environ["GEMINI_EMBEDDING_MODEL"]
 
     def __new__(cls):
-        if hasattr(cls, 'instance'):
-            return cls.instance
-        else:
+        if not hasattr(cls, 'instance'):
             cls.instance = super(GeminiApi, cls).__new__(cls)
+        return cls.instance
 
     def __init__(self):
         if self._gemini_api_key is None:
@@ -34,6 +34,6 @@ class GeminiApi:
         return response_text
 
     async def embed_content_async(self, text: str) -> [float]:
-        response = await genai.embed_content_async(self._gemini_model, text)
-        response_text = response.text.strip()
+        response = await genai.embed_content_async(self._gemini_embedding_model, text)
+        response_text = response
         return response_text
