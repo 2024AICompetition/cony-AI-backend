@@ -22,7 +22,8 @@ async def create_tags(diary_content_reqeust: DiaryContentRequest):
         }
     :response:
     """
-    return await diary_service.create_tags_from_diary_content(diary_content_reqeust.content)
+    response = await diary_service.create_tags_from_diary_content(diary_content_reqeust.content)
+    return eval(response)
 
 
 
@@ -37,7 +38,8 @@ async def create_suggested_topics(diary_content_reqeust: DiaryContentRequest):
         }
     :response:
     """
-    return await diary_service.create_suggested_topics_from_diary_content(diary_content_reqeust.content)
+    response =  await diary_service.create_suggested_topics_from_diary_content(diary_content_reqeust.content)
+    return eval(response)
 
 @DiaryRouter.post("/diary-content-topics",
                   status_code=status.HTTP_201_CREATED)
@@ -51,9 +53,9 @@ async def create_diary_content_topics(diary_content_with_previous_topics_reqeust
         }
     :response:
     """
-    return await diary_service.create_topics_from_diary_content(diary_content_with_previous_topics_reqeust.content,
-                                                                diary_content_with_previous_topics_reqeust.previous_topics)
-
+    response = await diary_service.create_topics_from_diary_content(diary_content_with_previous_topics_reqeust.content,
+                                                                    diary_content_with_previous_topics_reqeust.previous_topics)
+    return eval(response)
 
 @DiaryRouter.post("/embeddings",
                   status_code=status.HTTP_201_CREATED)
@@ -67,10 +69,10 @@ async def create_embedding(diary_content_reqeust: DiaryContentRequest):
     :response:
     """
     # https://ai.google.dev/api/rest/v1/ContentEmbedding?hl=ko
-    return await diary_service.create_embedding_from_diary_content(diary_content_reqeust.content)
+    response = await diary_service.create_embedding_from_diary_content(diary_content_reqeust.content)
+    return response
 
-
-@DiaryRouter.post("/diary-content-topics",
+@DiaryRouter.post("/questions",
                   status_code=status.HTTP_201_CREATED)
 async def create_question(user_information_request: UserInformationRequest):
     """
@@ -81,7 +83,8 @@ async def create_question(user_information_request: UserInformationRequest):
         }
     :response:
     """
-    return await diary_service.create_questions_from_user_information(user_information_request.user_information)
+    response =  await diary_service.create_questions_from_user_information(user_information_request.user_information)
+    return eval(response)
 
 @DiaryRouter.post("/images",
                   status_code=status.HTTP_201_CREATED)

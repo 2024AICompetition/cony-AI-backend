@@ -40,3 +40,21 @@ Content-Type: application/json
 {
   "content": "먼저 오늘 오전에 회사 미팅이 있었습니다.\n회의가 끝나고 직장동료들과 점심을 먹으며 바쁜 하루를 보냈습니다.\n하지만 저녁에는 집에가서 내가 좋아하는 피자를 맛있게 먹어서 행복한 하루였습니다.\n하지만, 최근에는 글을 쓰는 것을 게을리하고 있습니다.\n앞으로 매일 조금씩 쓰는 습관을 길러야겠어요.\n마지막으로 감사해야 할 일을 생각해보면 평화로운 하루를 보냈다는 것에 감사합니다.\n"
 }
+
+###
+POST http://127.0.0.1:2000/v1/diaries/questions
+Accept: application/json
+Content-Type: application/json
+
+{
+  "user_information": "[가장 최근에 작성 된 일기]\n제목 : {걱정과 불안이 가득한 하루}\n태그 : {\"emotion\": [\"걱정\", \"불안\"],\n\"person\": [\"직장 동료\", \"남자친구\"],\n\"event\": [\"갈등\", \"프로젝트가 무산됨\"],\n\"place\": [\"집\", \"회사\"]}\n토픽 : {\"직장에서 프로젝트가 무산됨\"} extractTopicFromDiaryContent에서 추출 된 토픽 나열함\n\n[사용자가 최근에 가장 많이 사용한 태그]\n[{\"emotion\": [\"불안\"], {\"인물\": [\"엄마\"], {\"이벤트\": [\"갈등\"], {\"장소\": [\"집\"]}]\n\n[사용자가 최근에 가장 많이 사용한 토픽]\n[{\"남자친구와 데이트\"}, {\"엄마와 영화보기\"}, {\"직장에서 상사와 다툼\"}]\n\n[사용자가 가장 최근에 위치한 곳의 날씨]\n기온 : 29도\n날씨 : 장마"
+}
+
+###
+POST http://127.0.0.1:2000/v1/diaries/images
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "First, I had a company meeting this morning. \nAfter the meeting, I had a busy day having lunch with my coworkers. \nBut in the evening, I went home and enjoyed my favorite pizza, so it was a happy day. \nHowever, I've been neglecting my writing lately. \nI should develop a habit of writing a little bit every day from now on. \nFinally, when I think about what I should be thankful for, I'm grateful that I had a peaceful day."
+}

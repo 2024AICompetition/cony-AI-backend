@@ -1,10 +1,15 @@
 import os
 import json
+
+import openai
+
 from infrastructure.GeminiApi import GeminiApi
+from infrastructure.OpenAIApi import OpenAiApi
 
 
 class DiaryService:
     _gemini = GeminiApi()
+    _openai = OpenAiApi()
     _system_instruction_file_path = os.environ["SYSTEM_INSTRUCTION_FILE_PATH"]
     _system_instruction = None
 
@@ -22,12 +27,10 @@ class DiaryService:
         """
         다이어리 내용으로 부터 태그들을 추출
         :param diary_content: 다이어리 내용
-        :return: 다이어리 태그 목록(Emotion, People, Event, Place) (TODO: - 데이터 후처리: 다이어리 태그 목록 객체)
+        :return: 다이어리 태그 목록(Emotion, People, Event, Place)
         """
-        print(self.system_instruction)
         system_instruction = self.system_instruction["create_tags_system_instruction"]
         system_instruction = system_instruction.replace("{diary_content}", diary_content)
-        print("create_tags_from_diary_content system instruction", system_instruction)
         return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_suggested_topics_from_diary_content(self, diary_content: str) -> str:
@@ -37,7 +40,6 @@ class DiaryService:
         :return: 장기 목표가 태깅된 다이어리 내용
         """
         system_instruction = self.system_instruction["create_suggestions_system_instruction"]
-        print("create_tags_from_diary_content system instruction", system_instruction)
         return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_topics_from_diary_content(self, diary_content: str, previous_topics: [str]) -> [str]:
@@ -45,17 +47,18 @@ class DiaryService:
         실시간 일기 내용의 모든 토픽을 생성
         :param diary_content: 다이어리 내용
         :param previous_topics: 기 추출 된 바 있는 토픽
-        :return: 토픽 목록 (TODO: - 데이터 후처리: 배열 값으로 변환)
+        :return: 토픽 목록
         """
         system_instruction = self.system_instruction["create_diary_content_topics_system_instruction"]
-        print(str({"content": diary_content, "previous_topics": previous_topics}))
+        system_instruction = system_instruction.replace("{text}", diary_content)
+        system_instruction = system_instruction.replace("{previous_topics}", str(previous_topics))
         return await self._gemini.generate_content_async(system_instruction, diary_content)
 
     async def create_embedding_from_diary_content(self, diary_content: str) -> str:
         """
         다이어리 내용으로 부터 임베딩 벡터 생성
         :param diary_content: 다이어리 내용
-        :return: 임베딩 벡터 값 (TODO: - 데이터 후처리: 임베딩 벡터값으로 변환)
+        :return: 임베딩 벡터 값
         """
         return await self._gemini.embed_content_async(diary_content)
 
@@ -65,13 +68,18 @@ class DiaryService:
         :param user_information_list: 사용자 정보 목록
         :return: 질문 목록
         """
-        pass
+        system_instruction = self.system_instruction["create_question_system_instruction"]
+        return await self._gemini.generate_content_async(system_instruction, user_information_list)
 
     ### Use ChatGPT API
-    async def create_image_from_diary_content(self, diary_content: str) -> str:
+    async def create_image_from_diary_content(self, diary_content: str) -> dict:
         """
         다이어리 내용으로 부터 이미지를 생성 (TODO: - Imagen으로 대체 가능 여부 확인)
         :param diary_content: 다이어리 내용
         :return: 이미지
+        https://community.openai.com/t/dall-e-2-api-issue-billing-hard-limit-has-been-reached/22738/13
         """
-        pass
+        system_instruction = self.system_instruction["create_image_system_instruction"]
+        system_instruction = system_instruction.replace('{text}', diary_content)
+        supplement =  await self._gemini.generate_content_async(None, system_instruction)
+        return await self._openai.generate_image_async(supplement)
