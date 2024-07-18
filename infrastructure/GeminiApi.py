@@ -19,7 +19,7 @@ class GeminiApi:
             raise Exception("환경변수(GEMINI_MODEL)이 존재하지 않습니다.")
         genai.configure(api_key=self._gemini_api_key)
 
-    async def generate_content_async(self, system_instruction: (str | None), text: str) -> str:
+    async def generate_content_async(self, system_instruction: str, text: str) -> str:
         if system_instruction is not None:
             model = genai.GenerativeModel(
                 model_name=self._gemini_model,
